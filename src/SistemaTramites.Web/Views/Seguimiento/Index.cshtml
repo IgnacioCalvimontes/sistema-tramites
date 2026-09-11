@@ -1,0 +1,91 @@
+@model SeguimientoViewModel
+@{
+    ViewData["Title"] = "Consultar mi trámite";
+    Layout = User.Identity?.IsAuthenticated == true ? "_Layout" : "_LayoutLogin";
+}
+
+<div class="@(User.Identity?.IsAuthenticated == true ? "" : "container py-5")">
+    <div class="row justify-content-center">
+        <div class="col-lg-7">
+
+            @if (User.Identity?.IsAuthenticated != true)
+            {
+                <div class="text-center mb-4">
+                    <span class="seal d-inline-flex mb-3" style="width:44px;height:44px;font-size:0.9rem;">N19</span>
+                    <h1 class="h4 mb-1">Consultar estado de trámite</h1>
+                    <p class="text-muted mb-0" style="font-size:0.9rem;">Notaría de Fe Pública N° 19 — Sucre</p>
+                </div>
+            }
+            else
+            {
+                <h1 class="h3 mb-3">Consultar estado de trámite</h1>
+            }
+
+            <div class="card mb-4">
+                <div class="card-body">
+                    <form asp-action="Index" method="post" class="row g-2 align-items-end">
+                        <div class="col-sm-8">
+                            <label asp-for="Codigo" class="form-label"></label>
+                            <input asp-for="Codigo" class="form-control" placeholder="TR-2026-00001" autofocus />
+                            <span asp-validation-for="Codigo" class="text-danger small"></span>
+                        </div>
+                        <div class="col-sm-4">
+                            <button type="submit" class="btn btn-primary w-100">Consultar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            @if (Model.Buscado && Model.Resultado == null)
+            {
+                <div class="alert alert-warning">
+                    No se encontró ningún trámite con el código <strong>@Model.Codigo</strong>.
+                    Verifique el código impreso en su comprobante.
+                </div>
+            }
+
+            @if (Model.Resultado != null)
+            {
+                var r = Model.Resultado;
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start mb-3">
+                            <div>
+                                <h2 class="h5 mb-1">@r.TipoTramite</h2>
+                                <p class="text-muted mb-0 small">
+                                    Solicitante: @Model.NombreCiudadano · Código <code>@r.CodigoSeguimiento</code>
+                                </p>
+                            </div>
+                            <span class="badge-estado @r.Estado.ToLower().Replace(" ", "-")">@r.Estado</span>
+                        </div>
+                        <dl class="row mb-0">
+                            <dt class="col-sm-4">Fecha de solicitud</dt>
+                            <dd class="col-sm-8">@r.FechaSolicitud.ToString("dd/MM/yyyy")</dd>
+
+                            <dt class="col-sm-4">Arancel</dt>
+                            <dd class="col-sm-8">
+                                Bs @r.MontoArancel.ToString("N2")
+                                @if (r.Pagado)
+                                {
+                                    <span class="ms-2" style="color: var(--forest);">✓ Cancelado</span>
+                                }
+                                else
+                                {
+                                    <span class="ms-2" style="color: var(--gold-deep);">Pendiente de pago</span>
+                                }
+                            </dd>
+                        </dl>
+                    </div>
+                </div>
+            }
+
+            @if (User.Identity?.IsAuthenticated != true)
+            {
+                <p class="text-center mt-4 small text-muted">
+                    ¿Es funcionario de la notaría o tiene cuenta?
+                    <a asp-controller="Account" asp-action="Login">Iniciar sesión</a>
+                </p>
+            }
+        </div>
+    </div>
+</div>

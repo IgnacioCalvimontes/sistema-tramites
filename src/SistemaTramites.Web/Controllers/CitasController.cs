@@ -1,11 +1,15 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SistemaTramites.Domain.Entities;
+using SistemaTramites.Domain.Seguridad;
 using SistemaTramites.Infrastructure.Data;
 
 namespace SistemaTramites.Web.Controllers;
 
+/// <summary>Agenda de citas: la maneja quien atiende al publico (RF-02).</summary>
+[Authorize(Roles = RolesApp.MesaOperativa)]
 public class CitasController : Controller
 {
     private readonly AppDbContext _context;

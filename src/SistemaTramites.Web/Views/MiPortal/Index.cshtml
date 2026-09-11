@@ -1,0 +1,85 @@
+@model MiPortalViewModel
+@{
+    ViewData["Title"] = "Mis trámites";
+}
+
+<div class="hero-letterhead mb-4">
+    <h1 class="h3 mb-2">Mis trámites</h1>
+    <p class="mb-0">@Model.NombreCiudadano — CI @Model.CI</p>
+</div>
+
+<div class="row g-0 mb-4">
+    <div class="col-4">
+        <div class="stat-ledger h-100">
+            <div class="stat-number">@Model.TotalTramites</div>
+            <div class="stat-label">Trámites solicitados</div>
+        </div>
+    </div>
+    <div class="col-4">
+        <div class="stat-ledger h-100">
+            <div class="stat-number" style="color: var(--gold-deep);">@Model.PendientesDePago</div>
+            <div class="stat-label">Pendientes de pago</div>
+        </div>
+    </div>
+    <div class="col-4">
+        <div class="stat-ledger h-100">
+            <div class="stat-number" style="color: var(--gold-deep);">Bs @Model.SaldoPendiente.ToString("N2")</div>
+            <div class="stat-label">Saldo por cancelar</div>
+        </div>
+    </div>
+</div>
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2 class="h5 mb-0">Historial de solicitudes</h2>
+    <a class="btn btn-primary" asp-action="NuevaSolicitud">+ Solicitar un trámite</a>
+</div>
+
+@if (!Model.Tramites.Any())
+{
+    <div class="empty-state">
+        <p class="mb-3">Aún no ha solicitado ningún trámite.</p>
+        <a class="btn btn-primary" asp-action="NuevaSolicitud">Solicitar mi primer trámite</a>
+    </div>
+}
+else
+{
+    <div class="table-responsive">
+        <table class="table table-striped table-hover align-middle">
+            <thead>
+                <tr>
+                    <th>Código</th>
+                    <th>Tipo de trámite</th>
+                    <th>Fecha</th>
+                    <th>Estado</th>
+                    <th class="text-end">Arancel</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            @foreach (var t in Model.Tramites)
+            {
+                <tr>
+                    <td><code>@t.CodigoSeguimiento</code></td>
+                    <td>@t.TipoTramite</td>
+                    <td>@t.FechaSolicitud.ToString("dd/MM/yyyy")</td>
+                    <td><span class="badge-estado @t.Estado.ToLower().Replace(" ", "-")">@t.Estado</span></td>
+                    <td class="text-end">
+                        Bs @t.MontoArancel.ToString("N2")
+                        @if (t.Pagado)
+                        {
+                            <span class="d-block small" style="color: var(--forest);">Pagado</span>
+                        }
+                        else
+                        {
+                            <span class="d-block small" style="color: var(--gold-deep);">Por pagar</span>
+                        }
+                    </td>
+                    <td class="text-end">
+                        <a class="btn btn-sm btn-outline-secondary" asp-action="Detalle" asp-route-id="@t.Id">Ver</a>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+}
