@@ -1,0 +1,42 @@
+@model Pago
+
+@{
+    ViewData["Title"] = "Nuevo — Pagos";
+}
+
+<h1>Nuevo registro</h1>
+
+<form asp-action="Create">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="mb-3">
+                <label asp-for="TramiteId" class="form-label"></label>
+                <select asp-for="TramiteId" class="form-select" asp-items="ViewBag.TramiteId">
+                    <option value="">-- Seleccione --</option>
+                </select>
+                <span asp-validation-for="TramiteId" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="CajeroId" class="form-label"></label>
+                <select asp-for="CajeroId" class="form-select" asp-items="ViewBag.CajeroId">
+                    <option value="">-- Seleccione --</option>
+                </select>
+                <span asp-validation-for="CajeroId" class="text-danger"></span>
+            </div>
+    <div class="mb-3">
+                <label asp-for="Monto" class="form-label"></label>
+                <input asp-for="Monto" type="number" step="0.01" class="form-control" />
+                <span asp-validation-for="Monto" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="NumeroRecibo" class="form-label"></label>
+                <input asp-for="NumeroRecibo" class="form-control" />
+                <span asp-validation-for="NumeroRecibo" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="FechaPago" class="form-label"></label>
+                <input asp-for="FechaPago" type="date" class="form-control" />
+                <span asp-validation-for="FechaPago" class="text-danger"></span>
+            </div>
+    <button type="submit" class="btn btn-primary">Guardar</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+</form>

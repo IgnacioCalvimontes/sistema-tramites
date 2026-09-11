@@ -1,0 +1,48 @@
+@{
+    ViewData["Title"] = "Inicio";
+}
+
+<div class="hero-letterhead mb-4">
+    <h1 class="h3 mb-2">Sistema de Información de Trámites Ciudadanos</h1>
+    <p class="mb-0">Notaría de Fe Pública N° 19 de Sucre, Bolivia</p>
+</div>
+
+<div class="row g-0 mb-4">
+    <div class="col-6 col-md-3">
+        <div class="stat-ledger h-100">
+            <div class="stat-number">@ViewBag.TotalCiudadanos</div>
+            <div class="stat-label">Ciudadanos registrados</div>
+        </div>
+    </div>
+    <div class="col-6 col-md-3">
+        <div class="stat-ledger h-100">
+            <div class="stat-number">@ViewBag.TotalTramites</div>
+            <div class="stat-label">Trámites totales</div>
+        </div>
+    </div>
+    <div class="col-6 col-md-3">
+        <div class="stat-ledger h-100">
+            <div class="stat-number" style="color: var(--gold-deep);">@ViewBag.TramitesPendientes</div>
+            <div class="stat-label">Pendientes de pago</div>
+        </div>
+    </div>
+    <div class="col-6 col-md-3">
+        <div class="stat-ledger h-100">
+            <div class="stat-number" style="color: var(--forest);">@ViewBag.TramitesPagados</div>
+            <div class="stat-label">Pagados</div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-3">
+    <div class="col-md-6">
+        <a class="btn btn-primary w-100 py-3" asp-controller="Operaciones" asp-action="RegistrarSolicitud">
+            1. Registrar solicitud de trámite (RF-01, RF-03)
+        </a>
+    </div>
+    <div class="col-md-6">
+        <a class="btn btn-success w-100 py-3" asp-controller="Operaciones" asp-action="RegistrarPago">
+            2. Registrar pago y emitir recibo (RF-05, RF-09)
+        </a>
+    </div>
+</div>

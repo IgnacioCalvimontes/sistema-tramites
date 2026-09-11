@@ -1,0 +1,33 @@
+@model SistemaTramites.Application.Services.RegistrarSolicitudResultado
+
+@{
+    ViewData["Title"] = "Trámite registrado";
+}
+
+<div class="alert alert-success">
+    <h1 class="alert-heading h3">✔ Trámite registrado correctamente</h1>
+    <p>Entregue al ciudadano su número de trámite para que pueda hacer seguimiento (RF-04) y pasar a caja a pagar el arancel.</p>
+</div>
+
+<div class="card col-md-6">
+    <div class="card-body">
+        <dl class="row mb-0">
+            <dt class="col-sm-5">Código de seguimiento</dt>
+            <dd class="col-sm-7"><span class="fs-4 fw-bold">@Model.CodigoSeguimiento</span></dd>
+
+            <dt class="col-sm-5">Ciudadano</dt>
+            <dd class="col-sm-7">@Model.NombreCiudadano</dd>
+
+            <dt class="col-sm-5">Tipo de trámite</dt>
+            <dd class="col-sm-7">@Model.NombreTipoTramite</dd>
+
+            <dt class="col-sm-5">Monto a pagar (arancel)</dt>
+            <dd class="col-sm-7 fs-5 text-success fw-bold">Bs @Model.MontoAPagar.ToString("N2")</dd>
+        </dl>
+    </div>
+</div>
+
+<div class="mt-4">
+    <a asp-action="RegistrarSolicitud" class="btn btn-outline-primary">Registrar otra solicitud</a>
+    <a asp-action="RegistrarPago" class="btn btn-success">Ir a registrar el pago →</a>
+</div>

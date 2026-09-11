@@ -1,0 +1,56 @@
+@model Tramite
+
+@{
+    ViewData["Title"] = "Editar — Trámites";
+}
+
+<h1>Editar registro</h1>
+
+<form asp-action="Edit">
+    <input type="hidden" asp-for="Id" />
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="mb-3">
+                <label asp-for="CiudadanoId" class="form-label"></label>
+                <select asp-for="CiudadanoId" class="form-select" asp-items="ViewBag.CiudadanoId">
+                    <option value="">-- Seleccione --</option>
+                </select>
+                <span asp-validation-for="CiudadanoId" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="TipoTramiteId" class="form-label"></label>
+                <select asp-for="TipoTramiteId" class="form-select" asp-items="ViewBag.TipoTramiteId">
+                    <option value="">-- Seleccione --</option>
+                </select>
+                <span asp-validation-for="TipoTramiteId" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="OficialId" class="form-label"></label>
+                <select asp-for="OficialId" class="form-select" asp-items="ViewBag.OficialId">
+                    <option value="">-- Seleccione --</option>
+                </select>
+                <span asp-validation-for="OficialId" class="text-danger"></span>
+            </div>
+    <div class="mb-3">
+                <label asp-for="CodigoSeguimiento" class="form-label"></label>
+                <input asp-for="CodigoSeguimiento" class="form-control" />
+                <span asp-validation-for="CodigoSeguimiento" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="FechaSolicitud" class="form-label"></label>
+                <input asp-for="FechaSolicitud" type="date" class="form-control" />
+                <span asp-validation-for="FechaSolicitud" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Estado" class="form-label"></label>
+                <select asp-for="Estado" class="form-select">
+                    <option value="Registrado">Registrado</option>
+                    <option value="Pagado">Pagado</option>
+                    <option value="En proceso">En proceso</option>
+                    <option value="Protocolizado">Protocolizado</option>
+                    <option value="Finalizado">Finalizado</option>
+                </select>
+                <span asp-validation-for="Estado" class="text-danger"></span>
+            </div>
+    <button type="submit" class="btn btn-primary">Guardar cambios</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+</form>

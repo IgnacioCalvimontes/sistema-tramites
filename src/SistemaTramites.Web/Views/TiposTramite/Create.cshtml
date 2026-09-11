@@ -1,0 +1,29 @@
+@model TipoTramite
+
+@{
+    ViewData["Title"] = "Nuevo — Tipos de trámite";
+}
+
+<h1>Nuevo registro</h1>
+
+<form asp-action="Create">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    
+    <div class="mb-3">
+                <label asp-for="Nombre" class="form-label"></label>
+                <input asp-for="Nombre" class="form-control" />
+                <span asp-validation-for="Nombre" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="CostoArancel" class="form-label"></label>
+                <input asp-for="CostoArancel" type="number" step="0.01" class="form-control" />
+                <span asp-validation-for="CostoArancel" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Plantilla" class="form-label"></label>
+                <input asp-for="Plantilla" class="form-control" />
+                <span asp-validation-for="Plantilla" class="text-danger"></span>
+            </div>
+    <button type="submit" class="btn btn-primary">Guardar</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+</form>

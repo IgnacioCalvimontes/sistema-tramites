@@ -1,0 +1,30 @@
+@{
+    ViewData["Title"] = "Registrar solicitud de trámite";
+}
+
+<h1>Registrar solicitud de trámite</h1>
+<p class="text-muted">Ciudadano → Ventanilla → Sistema: registra los datos del trámite y calcula el arancel (RF-01, RF-03).</p>
+
+<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+<form asp-action="RegistrarSolicitud" method="post" class="col-md-6">
+    <div class="mb-3">
+        <label class="form-label">Ciudadano solicitante</label>
+        <select name="ciudadanoId" class="form-select" asp-items="ViewBag.CiudadanoId" required>
+            <option value="">-- Seleccione --</option>
+        </select>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Tipo de trámite</label>
+        <select name="tipoTramiteId" class="form-select" asp-items="ViewBag.TipoTramiteId" required>
+            <option value="">-- Seleccione --</option>
+        </select>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Oficial / ventanilla que atiende (opcional)</label>
+        <select name="oficialId" class="form-select" asp-items="ViewBag.OficialId">
+            <option value="">-- Sin asignar --</option>
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Registrar trámite</button>
+</form>

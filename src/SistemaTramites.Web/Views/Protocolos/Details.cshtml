@@ -1,0 +1,21 @@
+@model Protocolo
+
+@{
+    ViewData["Title"] = "Detalle";
+}
+
+<h1>Detalle</h1>
+<dl class="row">
+    <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Tramite)</dt>
+        <dd class="col-sm-9">@(Model.Tramite != null ? Model.Tramite!.CodigoSeguimiento : "-")</dd>
+        <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Anio)</dt>
+        <dd class="col-sm-9">@Html.DisplayFor(model => model.Anio)</dd>
+        <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Libro)</dt>
+        <dd class="col-sm-9">@Html.DisplayFor(model => model.Libro)</dd>
+        <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Folio)</dt>
+        <dd class="col-sm-9">@Html.DisplayFor(model => model.Folio)</dd>
+        
+</dl>
+
+<a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Editar</a>
+<a asp-action="Index" class="btn btn-secondary">Volver al listado</a>

@@ -1,0 +1,295 @@
+/* ============================================================
+   Sistema de Trámites Ciudadanos — Notaría N° 19
+   Identidad visual: "libro de registro" — tinta, papel y sello.
+   ============================================================ */
+
+:root {
+  /* Color */
+  --ink: #1c2541;        /* tinta — texto principal, cabecera */
+  --ink-soft: #3a4566;   /* tinta suave — hover, subtítulos */
+  --paper: #faf8f2;      /* papel — fondo general */
+  --paper-shade: #f1ece0;/* papel sombreado — filas alternas, secciones */
+  --gold: #9c7a3c;       /* sello — acentos, enlaces, foco */
+  --gold-deep: #7c5e28;  /* sello oscuro — hover de acentos */
+  --line: #d9d2c1;       /* línea — bordes finos tipo hoja rayada */
+  --muted: #6b6f76;      /* texto secundario */
+  --burgundy: #7a2e2e;   /* alertas / eliminar */
+  --forest: #3f6b4f;     /* éxito / pagado */
+
+  --bs-primary: var(--ink);
+  --bs-primary-rgb: 28, 37, 65;
+  --bs-body-font-family: 'Inter', system-ui, sans-serif;
+  --bs-body-bg: var(--paper);
+  --bs-body-color: var(--ink);
+  --bs-border-radius: 3px;
+  --bs-border-radius-lg: 3px;
+  --bs-border-radius-sm: 2px;
+  --bs-link-color: var(--gold-deep);
+  --bs-link-hover-color: var(--ink);
+}
+
+body {
+  background-color: var(--paper);
+  color: var(--ink);
+}
+
+h1, h2, h3, h4, h5, .display-6 {
+  font-family: 'Fraunces', Georgia, serif;
+  font-weight: 560;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+}
+
+/* ---------- Letterhead / navbar ---------- */
+
+.navbar.bg-dark {
+  background-color: var(--ink) !important;
+  border-bottom: 3px solid var(--gold);
+  box-shadow: none;
+}
+
+.navbar-brand {
+  font-family: 'Fraunces', Georgia, serif;
+  font-weight: 600;
+  font-size: 1.15rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.navbar-brand .seal {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1.5px solid var(--gold);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 0.75rem;
+  color: var(--gold);
+  flex-shrink: 0;
+}
+
+.navbar .nav-link {
+  color: rgba(250, 248, 242, 0.82) !important;
+  font-size: 0.93rem;
+  padding-left: 0.7rem !important;
+  padding-right: 0.7rem !important;
+}
+
+.navbar .nav-link:hover {
+  color: #fff !important;
+}
+
+.navbar .dropdown-menu {
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  box-shadow: 0 4px 14px rgba(28, 37, 65, 0.12);
+}
+
+/* ---------- Botones ---------- */
+
+.btn {
+  border-radius: 3px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+
+.btn-primary {
+  background-color: var(--ink);
+  border-color: var(--ink);
+}
+.btn-primary:hover, .btn-primary:focus {
+  background-color: var(--ink-soft);
+  border-color: var(--ink-soft);
+}
+
+.btn-success {
+  background-color: var(--forest);
+  border-color: var(--forest);
+}
+.btn-success:hover { background-color: #345a41; border-color: #345a41; }
+
+.btn-danger, .btn-outline-danger:hover {
+  background-color: var(--burgundy);
+  border-color: var(--burgundy);
+}
+.btn-outline-danger { color: var(--burgundy); border-color: var(--burgundy); }
+
+.btn-outline-primary { color: var(--ink); border-color: var(--ink); }
+.btn-outline-primary:hover { background-color: var(--ink); border-color: var(--ink); }
+
+.btn-outline-secondary { color: var(--muted); border-color: var(--line); }
+.btn-outline-secondary:hover { background-color: var(--paper-shade); color: var(--ink); border-color: var(--line); }
+
+.btn-outline-light { border-color: rgba(250,248,242,0.5); }
+
+/* ---------- Tarjetas: hoja de papel, no "SaaS card" ---------- */
+
+.card {
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  box-shadow: none;
+  background-color: #fff;
+}
+
+.card.border-primary, .card.border-secondary, .card.border-warning, .card.border-success {
+  border-width: 1px !important;
+  border-color: var(--line) !important;
+  border-top: 3px solid var(--gold) !important;
+}
+
+.card-header {
+  background-color: var(--ink);
+  color: var(--paper);
+  font-family: 'Fraunces', Georgia, serif;
+  border-bottom: none;
+}
+
+/* ---------- Tablas: estilo libro de registro ---------- */
+
+.table {
+  --bs-table-bg: transparent;
+  border-collapse: collapse;
+}
+
+.table thead {
+  background-color: transparent;
+}
+
+.table thead th {
+  font-family: 'Fraunces', Georgia, serif;
+  font-weight: 600;
+  font-size: 0.92rem;
+  color: var(--ink);
+  border-bottom: 2px solid var(--ink) !important;
+  border-top: none;
+  padding-bottom: 0.6rem;
+}
+
+.table tbody tr {
+  border-bottom: 1px solid var(--line);
+}
+
+.table-striped > tbody > tr:nth-of-type(odd) > * {
+  background-color: var(--paper-shade);
+}
+
+.table-hover tbody tr:hover {
+  background-color: #efe6d0;
+}
+
+/* ---------- Formularios ---------- */
+
+.form-label {
+  font-weight: 500;
+  color: var(--ink-soft);
+  font-size: 0.92rem;
+}
+
+.form-control, .form-select {
+  border-color: var(--line);
+  border-radius: 3px;
+}
+
+.form-control:focus, .form-select:focus {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 0.2rem rgba(156, 122, 60, 0.18);
+}
+
+/* ---------- Alertas ---------- */
+
+.alert-success {
+  background-color: #eef3ee;
+  border-color: var(--forest);
+  color: #294a35;
+  border-left: 4px solid var(--forest);
+  border-radius: 2px;
+}
+
+.alert-danger, .text-danger {
+  color: var(--burgundy) !important;
+}
+.alert-danger {
+  background-color: #f5eaea;
+  border-left: 4px solid var(--burgundy);
+  border-radius: 2px;
+}
+
+/* ---------- Insignias de estado (Trámite / Notificación) ---------- */
+
+.badge-estado {
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 0.76rem;
+  padding: 0.32em 0.7em;
+  border-radius: 12px;
+  border: 1px solid transparent;
+}
+.badge-estado.registrado   { background: #eef0f6; color: var(--ink-soft); border-color: var(--line); }
+.badge-estado.pagado       { background: #eaf2ec; color: var(--forest); border-color: #cfe3d5; }
+.badge-estado.en-proceso   { background: #f7f0e2; color: var(--gold-deep); border-color: #e9d9b7; }
+.badge-estado.protocolizado{ background: #eceaf7; color: #4b3f8f; border-color: #d8d3ef; }
+.badge-estado.finalizado   { background: #1c2541; color: #faf8f2; border-color: #1c2541; }
+.badge-estado.enviado     { background: #eaf2ec; color: var(--forest); border-color: #cfe3d5; }
+.badge-estado.pendiente   { background: #f7f0e2; color: var(--gold-deep); border-color: #e9d9b7; }
+.badge-estado.fallido     { background: #f5eaea; color: var(--burgundy); border-color: #e6c9c9; }
+
+/* ---------- Pie de página ---------- */
+
+.footer {
+  border-top: 1px solid var(--line) !important;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+/* ---------- Dashboard (Home) ---------- */
+
+.stat-ledger {
+  border: 1px solid var(--line);
+  background: #fff;
+  padding: 1.25rem 1.5rem;
+}
+.stat-ledger .stat-number {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 2.4rem;
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1;
+}
+.stat-ledger .stat-label {
+  color: var(--muted);
+  font-size: 0.85rem;
+  margin-top: 0.35rem;
+}
+
+.hero-letterhead {
+  background: var(--ink);
+  color: var(--paper);
+  padding: 2.5rem 2.5rem;
+  border-radius: 3px;
+  position: relative;
+  overflow: hidden;
+}
+.hero-letterhead::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 3px;
+  background: var(--gold);
+}
+.hero-letterhead h1 { color: #fff; }
+.hero-letterhead p { color: rgba(250,248,242,0.78); }
+
+/* ---------- Utilidades ---------- */
+
+a { color: var(--gold-deep); }
+a:hover { color: var(--ink); }
+
+code {
+  color: var(--gold-deep);
+  background: var(--paper-shade);
+  padding: 0.1em 0.4em;
+  border-radius: 2px;
+}

@@ -1,0 +1,29 @@
+@model Ciudadano
+
+@{
+    ViewData["Title"] = "Nuevo — Ciudadanos";
+}
+
+<h1>Nuevo registro</h1>
+
+<form asp-action="Create">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    
+    <div class="mb-3">
+                <label asp-for="CI" class="form-label"></label>
+                <input asp-for="CI" class="form-control" />
+                <span asp-validation-for="CI" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Nombre" class="form-label"></label>
+                <input asp-for="Nombre" class="form-control" />
+                <span asp-validation-for="Nombre" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Contacto" class="form-label"></label>
+                <input asp-for="Contacto" class="form-control" />
+                <span asp-validation-for="Contacto" class="text-danger"></span>
+            </div>
+    <button type="submit" class="btn btn-primary">Guardar</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+</form>

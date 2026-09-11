@@ -1,0 +1,26 @@
+@model Pago
+
+@{
+    ViewData["Title"] = "Eliminar";
+}
+
+<h1 class="text-danger">¿Eliminar este registro?</h1>
+<dl class="row">
+    <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Tramite)</dt>
+        <dd class="col-sm-9">@(Model.Tramite != null ? Model.Tramite!.CodigoSeguimiento : "-")</dd>
+        <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Cajero)</dt>
+        <dd class="col-sm-9">@(Model.Cajero != null ? Model.Cajero!.Nombre : "-")</dd>
+        <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Monto)</dt>
+        <dd class="col-sm-9">@Model.Monto.ToString("N2")</dd>
+        <dt class="col-sm-3">@Html.DisplayNameFor(model => model.NumeroRecibo)</dt>
+        <dd class="col-sm-9">@Html.DisplayFor(model => model.NumeroRecibo)</dd>
+        <dt class="col-sm-3">@Html.DisplayNameFor(model => model.FechaPago)</dt>
+        <dd class="col-sm-9">@Html.DisplayFor(model => model.FechaPago)</dd>
+        
+</dl>
+
+<form asp-action="Delete">
+    <input type="hidden" asp-for="Id" />
+    <button type="submit" class="btn btn-danger">Sí, eliminar</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+</form>

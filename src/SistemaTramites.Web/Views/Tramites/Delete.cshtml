@@ -1,0 +1,28 @@
+@model Tramite
+
+@{
+    ViewData["Title"] = "Eliminar";
+}
+
+<h1 class="text-danger">¿Eliminar este registro?</h1>
+<dl class="row">
+    <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Ciudadano)</dt>
+        <dd class="col-sm-9">@(Model.Ciudadano != null ? Model.Ciudadano!.Nombre : "-")</dd>
+        <dt class="col-sm-3">@Html.DisplayNameFor(model => model.TipoTramite)</dt>
+        <dd class="col-sm-9">@(Model.TipoTramite != null ? Model.TipoTramite!.Nombre : "-")</dd>
+        <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Oficial)</dt>
+        <dd class="col-sm-9">@(Model.Oficial != null ? Model.Oficial!.Nombre : "-")</dd>
+        <dt class="col-sm-3">@Html.DisplayNameFor(model => model.CodigoSeguimiento)</dt>
+        <dd class="col-sm-9">@Html.DisplayFor(model => model.CodigoSeguimiento)</dd>
+        <dt class="col-sm-3">@Html.DisplayNameFor(model => model.FechaSolicitud)</dt>
+        <dd class="col-sm-9">@Html.DisplayFor(model => model.FechaSolicitud)</dd>
+        <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Estado)</dt>
+        <dd class="col-sm-9">@Html.DisplayFor(model => model.Estado)</dd>
+        
+</dl>
+
+<form asp-action="Delete">
+    <input type="hidden" asp-for="Id" />
+    <button type="submit" class="btn btn-danger">Sí, eliminar</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+</form>

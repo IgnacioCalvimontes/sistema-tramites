@@ -1,0 +1,24 @@
+@model Cita
+
+@{
+    ViewData["Title"] = "Eliminar";
+}
+
+<h1 class="text-danger">¿Eliminar este registro?</h1>
+<dl class="row">
+    <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Tramite)</dt>
+        <dd class="col-sm-9">@(Model.Tramite != null ? Model.Tramite!.CodigoSeguimiento : "-")</dd>
+        <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Fecha)</dt>
+        <dd class="col-sm-9">@Html.DisplayFor(model => model.Fecha)</dd>
+        <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Hora)</dt>
+        <dd class="col-sm-9">@Html.DisplayFor(model => model.Hora)</dd>
+        <dt class="col-sm-3">@Html.DisplayNameFor(model => model.TipoCita)</dt>
+        <dd class="col-sm-9">@Html.DisplayFor(model => model.TipoCita)</dd>
+        
+</dl>
+
+<form asp-action="Delete">
+    <input type="hidden" asp-for="Id" />
+    <button type="submit" class="btn btn-danger">Sí, eliminar</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+</form>

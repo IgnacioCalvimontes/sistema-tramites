@@ -1,0 +1,19 @@
+@model Notificacion
+
+@{
+    ViewData["Title"] = "Detalle";
+}
+
+<h1>Detalle</h1>
+<dl class="row">
+    <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Tramite)</dt>
+        <dd class="col-sm-9">@(Model.Tramite != null ? Model.Tramite!.CodigoSeguimiento : "-")</dd>
+        <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Medio)</dt>
+        <dd class="col-sm-9">@Html.DisplayFor(model => model.Medio)</dd>
+        <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Estado)</dt>
+        <dd class="col-sm-9">@Html.DisplayFor(model => model.Estado)</dd>
+        
+</dl>
+
+<a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Editar</a>
+<a asp-action="Index" class="btn btn-secondary">Volver al listado</a>

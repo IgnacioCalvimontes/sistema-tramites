@@ -1,0 +1,35 @@
+@model Protocolo
+
+@{
+    ViewData["Title"] = "Nuevo — Protocolo (archivo)";
+}
+
+<h1>Nuevo registro</h1>
+
+<form asp-action="Create">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="mb-3">
+                <label asp-for="TramiteId" class="form-label"></label>
+                <select asp-for="TramiteId" class="form-select" asp-items="ViewBag.TramiteId">
+                    <option value="">-- Seleccione --</option>
+                </select>
+                <span asp-validation-for="TramiteId" class="text-danger"></span>
+            </div>
+    <div class="mb-3">
+                <label asp-for="Anio" class="form-label"></label>
+                <input asp-for="Anio" type="number" class="form-control" />
+                <span asp-validation-for="Anio" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Libro" class="form-label"></label>
+                <input asp-for="Libro" class="form-control" />
+                <span asp-validation-for="Libro" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Folio" class="form-label"></label>
+                <input asp-for="Folio" class="form-control" />
+                <span asp-validation-for="Folio" class="text-danger"></span>
+            </div>
+    <button type="submit" class="btn btn-primary">Guardar</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+</form>

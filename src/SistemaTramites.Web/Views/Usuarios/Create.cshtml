@@ -1,0 +1,35 @@
+@model Usuario
+
+@{
+    ViewData["Title"] = "Nuevo — Usuarios (roles y permisos)";
+}
+
+<h1>Nuevo registro</h1>
+
+<form asp-action="Create">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    
+    <div class="mb-3">
+                <label asp-for="Nombre" class="form-label"></label>
+                <input asp-for="Nombre" class="form-control" />
+                <span asp-validation-for="Nombre" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Rol" class="form-label"></label>
+                <select asp-for="Rol" class="form-select">
+                    <option value="Ventanilla">Ventanilla</option>
+                    <option value="Caja">Caja</option>
+                    <option value="Oficial">Oficial</option>
+                    <option value="Notario">Notario</option>
+                    <option value="Archivo">Archivo</option>
+                </select>
+                <span asp-validation-for="Rol" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="UsuarioLogin" class="form-label"></label>
+                <input asp-for="UsuarioLogin" class="form-control" />
+                <span asp-validation-for="UsuarioLogin" class="text-danger"></span>
+            </div>
+    <button type="submit" class="btn btn-primary">Guardar</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+</form>

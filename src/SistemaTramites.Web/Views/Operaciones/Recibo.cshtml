@@ -1,0 +1,37 @@
+@model SistemaTramites.Application.Services.RegistrarPagoResultado
+
+@{
+    ViewData["Title"] = "Recibo de pago";
+}
+
+<div class="alert alert-success">
+    <h1 class="alert-heading h3">✔ Pago registrado y recibo emitido</h1>
+    @if (Model.NotificacionEnviada)
+    {
+        <p class="mb-0">Se generó una notificación automática para el ciudadano (RF-09).</p>
+    }
+</div>
+
+<div class="card col-md-6">
+    <div class="card-header">Recibo de pago</div>
+    <div class="card-body">
+        <dl class="row mb-0">
+            <dt class="col-sm-5">Número de recibo</dt>
+            <dd class="col-sm-7"><span class="fs-4 fw-bold">@Model.NumeroRecibo</span></dd>
+
+            <dt class="col-sm-5">Trámite</dt>
+            <dd class="col-sm-7">@Model.CodigoSeguimientoTramite</dd>
+
+            <dt class="col-sm-5">Ciudadano</dt>
+            <dd class="col-sm-7">@Model.NombreCiudadano</dd>
+
+            <dt class="col-sm-5">Monto pagado</dt>
+            <dd class="col-sm-7 fs-5 text-success fw-bold">Bs @Model.Monto.ToString("N2")</dd>
+        </dl>
+    </div>
+</div>
+
+<div class="mt-4">
+    <a asp-action="RegistrarPago" class="btn btn-outline-success">Registrar otro pago</a>
+    <a asp-controller="Tramites" asp-action="Index" class="btn btn-secondary">Ver todos los trámites</a>
+</div>

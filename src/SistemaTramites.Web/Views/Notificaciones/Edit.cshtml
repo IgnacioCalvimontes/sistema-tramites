@@ -1,0 +1,39 @@
+@model Notificacion
+
+@{
+    ViewData["Title"] = "Editar — Notificaciones";
+}
+
+<h1>Editar registro</h1>
+
+<form asp-action="Edit">
+    <input type="hidden" asp-for="Id" />
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="mb-3">
+                <label asp-for="TramiteId" class="form-label"></label>
+                <select asp-for="TramiteId" class="form-select" asp-items="ViewBag.TramiteId">
+                    <option value="">-- Seleccione --</option>
+                </select>
+                <span asp-validation-for="TramiteId" class="text-danger"></span>
+            </div>
+    <div class="mb-3">
+                <label asp-for="Medio" class="form-label"></label>
+                <select asp-for="Medio" class="form-select">
+                    <option value="Correo">Correo</option>
+                    <option value="WhatsApp">WhatsApp</option>
+                    <option value="SMS">SMS</option>
+                </select>
+                <span asp-validation-for="Medio" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Estado" class="form-label"></label>
+                <select asp-for="Estado" class="form-select">
+                    <option value="Pendiente">Pendiente</option>
+                    <option value="Enviado">Enviado</option>
+                    <option value="Fallido">Fallido</option>
+                </select>
+                <span asp-validation-for="Estado" class="text-danger"></span>
+            </div>
+    <button type="submit" class="btn btn-primary">Guardar cambios</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+</form>

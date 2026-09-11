@@ -1,0 +1,35 @@
+@model Cita
+
+@{
+    ViewData["Title"] = "Nuevo — Citas";
+}
+
+<h1>Nuevo registro</h1>
+
+<form asp-action="Create">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="mb-3">
+                <label asp-for="TramiteId" class="form-label"></label>
+                <select asp-for="TramiteId" class="form-select" asp-items="ViewBag.TramiteId">
+                    <option value="">-- Seleccione --</option>
+                </select>
+                <span asp-validation-for="TramiteId" class="text-danger"></span>
+            </div>
+    <div class="mb-3">
+                <label asp-for="Fecha" class="form-label"></label>
+                <input asp-for="Fecha" type="date" class="form-control" />
+                <span asp-validation-for="Fecha" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Hora" class="form-label"></label>
+                <input asp-for="Hora" type="time" class="form-control" />
+                <span asp-validation-for="Hora" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="TipoCita" class="form-label"></label>
+                <input asp-for="TipoCita" class="form-control" />
+                <span asp-validation-for="TipoCita" class="text-danger"></span>
+            </div>
+    <button type="submit" class="btn btn-primary">Guardar</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+</form>
