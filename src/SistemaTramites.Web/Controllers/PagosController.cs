@@ -1,11 +1,15 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SistemaTramites.Domain.Entities;
+using SistemaTramites.Domain.Seguridad;
 using SistemaTramites.Infrastructure.Data;
 
 namespace SistemaTramites.Web.Controllers;
 
+/// <summary>Pagos: Caja registra y corrige; el Notario solo consulta para reportes (RF-05).</summary>
+[Authorize(Roles = RolesApp.RecaudacionYSupervision)]
 public class PagosController : Controller
 {
     private readonly AppDbContext _context;
@@ -35,6 +39,7 @@ public class PagosController : Controller
     }
 
     // GET: Pagos/Create
+    [Authorize(Roles = RolesApp.Recaudacion)]
     public IActionResult Create()
     {
         ViewData["TramiteId"] = new SelectList(_context.Tramites, "Id", "CodigoSeguimiento");
@@ -45,6 +50,7 @@ public class PagosController : Controller
     // POST: Pagos/Create
     [HttpPost]
     [ValidateAntiForgeryToken]
+    [Authorize(Roles = RolesApp.Recaudacion)]
     public async Task<IActionResult> Create(Pago model)
     {
         if (ModelState.IsValid)
@@ -60,6 +66,7 @@ public class PagosController : Controller
     }
 
     // GET: Pagos/Edit/5
+    [Authorize(Roles = RolesApp.Recaudacion)]
     public async Task<IActionResult> Edit(int? id)
     {
         if (id == null) return NotFound();
@@ -75,6 +82,7 @@ public class PagosController : Controller
     // POST: Pagos/Edit/5
     [HttpPost]
     [ValidateAntiForgeryToken]
+    [Authorize(Roles = RolesApp.Recaudacion)]
     public async Task<IActionResult> Edit(int id, Pago model)
     {
         if (id != model.Id) return NotFound();
@@ -100,6 +108,7 @@ public class PagosController : Controller
     }
 
     // GET: Pagos/Delete/5
+    [Authorize(Roles = RolesApp.Recaudacion)]
     public async Task<IActionResult> Delete(int? id)
     {
         if (id == null) return NotFound();
@@ -114,6 +123,7 @@ public class PagosController : Controller
     // POST: Pagos/Delete/5
     [HttpPost, ActionName("Delete")]
     [ValidateAntiForgeryToken]
+    [Authorize(Roles = RolesApp.Recaudacion)]
     public async Task<IActionResult> DeleteConfirmed(int id)
     {
         var item = await _context.Pagos.FindAsync(id);

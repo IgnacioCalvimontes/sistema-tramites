@@ -1,5 +1,27 @@
+@using SistemaTramites.Domain.Seguridad
 @{
     ViewData["Title"] = "Inicio";
+
+    var esAdmin = User.IsInRole(RolesApp.Administrador);
+    var esNotario = User.IsInRole(RolesApp.Notario);
+    var esVentanilla = User.IsInRole(RolesApp.Ventanilla);
+    var esCaja = User.IsInRole(RolesApp.Caja);
+    var esOficial = User.IsInRole(RolesApp.Oficial);
+    var esArchivo = User.IsInRole(RolesApp.Archivo);
+
+    var mesaOperativa = esAdmin || esVentanilla || esOficial;
+    var recaudacion = esAdmin || esCaja;
+    var supervision = esAdmin || esNotario;
+    var archivo = esAdmin || esArchivo;
+
+    // Texto que explica a cada perfil cuál es su función en el flujo del trámite.
+    var descripcionRol = esAdmin ? "Tiene acceso completo al sistema para administración y soporte."
+        : esNotario ? "Supervisa la recaudación, el protocolo y administra el personal y sus roles."
+        : esVentanilla ? "Recepciona al ciudadano, registra solicitudes y agenda citas."
+        : esCaja ? "Cobra los aranceles y emite los recibos correspondientes."
+        : esOficial ? "Tramita los expedientes asignados y gestiona su documentación."
+        : esArchivo ? "Indexa y resguarda el protocolo notarial."
+        : "Consulte con el administrador la asignación de su rol.";
 }
 
 <div class="hero-letterhead mb-4">
@@ -7,13 +29,19 @@
     <p class="mb-0">Notaría de Fe Pública N° 19 de Sucre, Bolivia</p>
 </div>
 
+<p class="text-muted mb-4">@descripcionRol</p>
+
+@* ---------- Indicadores: cada rol ve las cifras que le competen ---------- *@
 <div class="row g-0 mb-4">
-    <div class="col-6 col-md-3">
-        <div class="stat-ledger h-100">
-            <div class="stat-number">@ViewBag.TotalCiudadanos</div>
-            <div class="stat-label">Ciudadanos registrados</div>
+    @if (mesaOperativa || supervision)
+    {
+        <div class="col-6 col-md-3">
+            <div class="stat-ledger h-100">
+                <div class="stat-number">@ViewBag.TotalCiudadanos</div>
+                <div class="stat-label">Ciudadanos registrados</div>
+            </div>
         </div>
-    </div>
+    }
     <div class="col-6 col-md-3">
         <div class="stat-ledger h-100">
             <div class="stat-number">@ViewBag.TotalTramites</div>
@@ -26,23 +54,102 @@
             <div class="stat-label">Pendientes de pago</div>
         </div>
     </div>
-    <div class="col-6 col-md-3">
-        <div class="stat-ledger h-100">
-            <div class="stat-number" style="color: var(--forest);">@ViewBag.TramitesPagados</div>
-            <div class="stat-label">Pagados</div>
+    @if (recaudacion || supervision)
+    {
+        <div class="col-6 col-md-3">
+            <div class="stat-ledger h-100">
+                <div class="stat-number" style="color: var(--forest);">Bs @(((decimal)ViewBag.TotalRecaudado).ToString("N2"))</div>
+                <div class="stat-label">Recaudado</div>
+            </div>
         </div>
-    </div>
+    }
+    else if (archivo)
+    {
+        <div class="col-6 col-md-3">
+            <div class="stat-ledger h-100">
+                <div class="stat-number">@ViewBag.TotalProtocolos</div>
+                <div class="stat-label">Protocolos indexados</div>
+            </div>
+        </div>
+    }
 </div>
 
+@* ---------- Accesos directos a las tareas propias del rol ---------- *@
+<h2 class="h5 mb-3">Tareas de su perfil</h2>
 <div class="row g-3">
+
+    @if (mesaOperativa)
+    {
+        <div class="col-md-6">
+            <a class="accion-card" asp-controller="Operaciones" asp-action="RegistrarSolicitud">
+                <span class="accion-titulo">Registrar solicitud de trámite</span>
+                <span class="accion-detalle">Recepciona al ciudadano, calcula el arancel y emite el código de seguimiento (RF-01, RF-03).</span>
+            </a>
+        </div>
+        <div class="col-md-6">
+            <a class="accion-card" asp-controller="Citas" asp-action="Index">
+                <span class="accion-titulo">Agendar citas</span>
+                <span class="accion-detalle">Programa la atención presencial del trámite (RF-02).</span>
+            </a>
+        </div>
+    }
+
+    @if (recaudacion)
+    {
+        <div class="col-md-6">
+            <a class="accion-card" asp-controller="Operaciones" asp-action="RegistrarPago">
+                <span class="accion-titulo">Registrar pago y emitir recibo</span>
+                <span class="accion-detalle">Cobra el arancel, genera el recibo y notifica al ciudadano (RF-05, RF-09).</span>
+            </a>
+        </div>
+    }
+
+    @if (esOficial || esAdmin)
+    {
+        <div class="col-md-6">
+            <a class="accion-card" asp-controller="Documentos" asp-action="Index">
+                <span class="accion-titulo">Documentos del expediente</span>
+                <span class="accion-detalle">Adjunta y verifica los requisitos de cada trámite (RF-07).</span>
+            </a>
+        </div>
+    }
+
+    @if (archivo)
+    {
+        <div class="col-md-6">
+            <a class="accion-card" asp-controller="Protocolos" asp-action="Index">
+                <span class="accion-titulo">Indexar protocolización</span>
+                <span class="accion-detalle">Registra el número de protocolo y resguarda el documento (RF-08).</span>
+            </a>
+        </div>
+    }
+
+    @if (supervision)
+    {
+        <div class="col-md-6">
+            <a class="accion-card" asp-controller="Usuarios" asp-action="Index">
+                <span class="accion-titulo">Administrar personal y roles</span>
+                <span class="accion-detalle">Define quién puede realizar cada operación del sistema (RF-06).</span>
+            </a>
+        </div>
+        <div class="col-md-6">
+            <a class="accion-card" asp-controller="Pagos" asp-action="Index">
+                <span class="accion-titulo">Reporte de recaudación</span>
+                <span class="accion-detalle">Consulta los pagos registrados y los recibos emitidos.</span>
+            </a>
+        </div>
+        <div class="col-md-6">
+            <a class="accion-card" asp-controller="TiposTramite" asp-action="Index">
+                <span class="accion-titulo">Aranceles por tipo de trámite</span>
+                <span class="accion-detalle">Mantiene los montos con los que el sistema calcula el cobro (RF-03).</span>
+            </a>
+        </div>
+    }
+
     <div class="col-md-6">
-        <a class="btn btn-primary w-100 py-3" asp-controller="Operaciones" asp-action="RegistrarSolicitud">
-            1. Registrar solicitud de trámite (RF-01, RF-03)
-        </a>
-    </div>
-    <div class="col-md-6">
-        <a class="btn btn-success w-100 py-3" asp-controller="Operaciones" asp-action="RegistrarPago">
-            2. Registrar pago y emitir recibo (RF-05, RF-09)
+        <a class="accion-card" asp-controller="Tramites" asp-action="Index">
+            <span class="accion-titulo">Consultar trámites</span>
+            <span class="accion-detalle">Revisa el estado de cualquier expediente de la notaría (RF-04).</span>
         </a>
     </div>
 </div>

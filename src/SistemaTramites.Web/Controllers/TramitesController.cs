@@ -1,11 +1,15 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SistemaTramites.Domain.Entities;
+using SistemaTramites.Domain.Seguridad;
 using SistemaTramites.Infrastructure.Data;
 
 namespace SistemaTramites.Web.Controllers;
 
+/// <summary>Expediente de tramites: todo el personal consulta; solo la mesa operativa edita.</summary>
+[Authorize(Roles = RolesApp.Personal)]
 public class TramitesController : Controller
 {
     private readonly AppDbContext _context;
@@ -35,6 +39,7 @@ public class TramitesController : Controller
     }
 
     // GET: Tramites/Create
+    [Authorize(Roles = RolesApp.MesaOperativa)]
     public IActionResult Create()
     {
         ViewData["CiudadanoId"] = new SelectList(_context.Ciudadanos, "Id", "Nombre");
@@ -46,6 +51,7 @@ public class TramitesController : Controller
     // POST: Tramites/Create
     [HttpPost]
     [ValidateAntiForgeryToken]
+    [Authorize(Roles = RolesApp.MesaOperativa)]
     public async Task<IActionResult> Create(Tramite model)
     {
         if (ModelState.IsValid)
@@ -62,6 +68,7 @@ public class TramitesController : Controller
     }
 
     // GET: Tramites/Edit/5
+    [Authorize(Roles = RolesApp.MesaOperativa)]
     public async Task<IActionResult> Edit(int? id)
     {
         if (id == null) return NotFound();
@@ -78,6 +85,7 @@ public class TramitesController : Controller
     // POST: Tramites/Edit/5
     [HttpPost]
     [ValidateAntiForgeryToken]
+    [Authorize(Roles = RolesApp.MesaOperativa)]
     public async Task<IActionResult> Edit(int id, Tramite model)
     {
         if (id != model.Id) return NotFound();
@@ -104,6 +112,7 @@ public class TramitesController : Controller
     }
 
     // GET: Tramites/Delete/5
+    [Authorize(Roles = RolesApp.MesaOperativa)]
     public async Task<IActionResult> Delete(int? id)
     {
         if (id == null) return NotFound();
@@ -118,6 +127,7 @@ public class TramitesController : Controller
     // POST: Tramites/Delete/5
     [HttpPost, ActionName("Delete")]
     [ValidateAntiForgeryToken]
+    [Authorize(Roles = RolesApp.MesaOperativa)]
     public async Task<IActionResult> DeleteConfirmed(int id)
     {
         var item = await _context.Tramites.FindAsync(id);

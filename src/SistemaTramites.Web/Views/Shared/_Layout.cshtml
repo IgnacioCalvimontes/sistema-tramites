@@ -1,3 +1,32 @@
+@using SistemaTramites.Domain.Seguridad
+@{
+    // ---- Menú dinámico: cada bloque se muestra solo si el rol logueado lo necesita ----
+    // Refleja la misma matriz que los [Authorize(Roles = ...)] de los controladores,
+    // para que el usuario nunca vea un enlace que luego le daría "Acceso denegado".
+    var esCiudadano = User.IsInRole(RolesApp.Ciudadano);
+    var esAdmin = User.IsInRole(RolesApp.Administrador);
+    var esNotario = User.IsInRole(RolesApp.Notario);
+    var esVentanilla = User.IsInRole(RolesApp.Ventanilla);
+    var esCaja = User.IsInRole(RolesApp.Caja);
+    var esOficial = User.IsInRole(RolesApp.Oficial);
+    var esArchivo = User.IsInRole(RolesApp.Archivo);
+
+    var mesaOperativa = esAdmin || esVentanilla || esOficial;
+    var recaudacion = esAdmin || esCaja;
+    var archivoNot = esAdmin || esArchivo || esNotario;
+    var supervision = esAdmin || esNotario;
+    var personal = mesaOperativa || recaudacion || archivoNot || supervision;
+
+    // Etiqueta del rol para mostrarlo junto al nombre de usuario.
+    var rolActual = esAdmin ? RolesApp.Administrador
+        : esNotario ? RolesApp.Notario
+        : esVentanilla ? RolesApp.Ventanilla
+        : esCaja ? RolesApp.Caja
+        : esOficial ? RolesApp.Oficial
+        : esArchivo ? RolesApp.Archivo
+        : esCiudadano ? RolesApp.Ciudadano
+        : "Sin rol";
+}
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -17,35 +46,91 @@
                     <span class="seal">N19</span>
                     <span>Notaría N° 19 — Trámites</span>
                 </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu"
+                        aria-controls="navMenu" aria-expanded="false" aria-label="Abrir menú">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navMenu">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item"><a class="nav-link" asp-controller="Operaciones" asp-action="RegistrarSolicitud">Registrar solicitud</a></li>
-                        <li class="nav-item"><a class="nav-link" asp-controller="Operaciones" asp-action="RegistrarPago">Registrar pago</a></li>
-                        <li class="nav-item"><a class="nav-link" asp-controller="Tramites" asp-action="Index">Trámites</a></li>
-                        <li class="nav-item"><a class="nav-link" asp-controller="Citas" asp-action="Index">Citas</a></li>
-                        <li class="nav-item"><a class="nav-link" asp-controller="Documentos" asp-action="Index">Documentos</a></li>
-                        <li class="nav-item"><a class="nav-link" asp-controller="Pagos" asp-action="Index">Pagos</a></li>
-                        <li class="nav-item"><a class="nav-link" asp-controller="Protocolos" asp-action="Index">Protocolo</a></li>
-                        <li class="nav-item"><a class="nav-link" asp-controller="Notificaciones" asp-action="Index">Notificaciones</a></li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Catálogos</a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" asp-controller="Ciudadanos" asp-action="Index">Ciudadanos</a></li>
-                                <li><a class="dropdown-item" asp-controller="TiposTramite" asp-action="Index">Tipos de trámite</a></li>
-                                <li><a class="dropdown-item" asp-controller="Usuarios" asp-action="Index">Usuarios (roles)</a></li>
-                            </ul>
-                        </li>
+
+                        @* ---------- Portal del ciudadano ---------- *@
+                        @if (esCiudadano)
+                        {
+                            <li class="nav-item"><a class="nav-link" asp-controller="MiPortal" asp-action="Index">Mis trámites</a></li>
+                            <li class="nav-item"><a class="nav-link" asp-controller="MiPortal" asp-action="NuevaSolicitud">Solicitar trámite</a></li>
+                            <li class="nav-item"><a class="nav-link" asp-controller="Seguimiento" asp-action="Index">Consultar por código</a></li>
+                        }
+
+                        @* ---------- Atención al público (RF-01, RF-02) ---------- *@
+                        @if (mesaOperativa)
+                        {
+                            <li class="nav-item"><a class="nav-link" asp-controller="Operaciones" asp-action="RegistrarSolicitud">Registrar solicitud</a></li>
+                            <li class="nav-item"><a class="nav-link" asp-controller="Citas" asp-action="Index">Citas</a></li>
+                        }
+
+                        @* ---------- Caja (RF-05, RF-09) ---------- *@
+                        @if (recaudacion)
+                        {
+                            <li class="nav-item"><a class="nav-link" asp-controller="Operaciones" asp-action="RegistrarPago">Registrar pago</a></li>
+                        }
+
+                        @* ---------- Expediente: lo consulta todo el personal ---------- *@
+                        @if (personal)
+                        {
+                            <li class="nav-item"><a class="nav-link" asp-controller="Tramites" asp-action="Index">Trámites</a></li>
+                        }
+
+                        @if (mesaOperativa || esArchivo)
+                        {
+                            <li class="nav-item"><a class="nav-link" asp-controller="Documentos" asp-action="Index">Documentos</a></li>
+                        }
+
+                        @* ---------- Caja y supervisión consultan pagos ---------- *@
+                        @if (recaudacion || esNotario)
+                        {
+                            <li class="nav-item"><a class="nav-link" asp-controller="Pagos" asp-action="Index">Pagos</a></li>
+                        }
+
+                        @* ---------- Archivo y protocolo (RF-08) ---------- *@
+                        @if (archivoNot)
+                        {
+                            <li class="nav-item"><a class="nav-link" asp-controller="Protocolos" asp-action="Index">Protocolo</a></li>
+                        }
+
+                        @if (mesaOperativa)
+                        {
+                            <li class="nav-item"><a class="nav-link" asp-controller="Notificaciones" asp-action="Index">Notificaciones</a></li>
+                        }
+
+                        @* ---------- Catálogos: solo quien puede mantenerlos ---------- *@
+                        @if (personal)
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Catálogos</a>
+                                <ul class="dropdown-menu">
+                                    @if (mesaOperativa)
+                                    {
+                                        <li><a class="dropdown-item" asp-controller="Ciudadanos" asp-action="Index">Ciudadanos</a></li>
+                                    }
+                                    <li><a class="dropdown-item" asp-controller="TiposTramite" asp-action="Index">Tipos de trámite y aranceles</a></li>
+                                    @if (supervision)
+                                    {
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li><a class="dropdown-item" asp-controller="Usuarios" asp-action="Index">Personal y roles (RF-06)</a></li>
+                                    }
+                                </ul>
+                            </li>
+                        }
                     </ul>
                 </div>
-                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                    <li class="nav-item d-flex align-items-center text-light me-3">
-                        <span>👤 @User.Identity!.Name</span>
+
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0 flex-row align-items-center gap-2">
+                    <li class="nav-item d-flex flex-column align-items-end text-light me-2 lh-1">
+                        <span class="small">@User.Identity?.Name</span>
+                        <span class="rol-chip">@rolActual</span>
                     </li>
                     <li class="nav-item">
-                        <form asp-controller="Account" asp-action="Logout" method="post">
+                        <form asp-controller="Account" asp-action="Logout" method="post" class="m-0">
                             <button type="submit" class="btn btn-outline-light btn-sm">Salir</button>
                         </form>
                     </li>
@@ -53,18 +138,36 @@
             </div>
         </nav>
     </header>
+
     <div class="container mt-4">
+        @* Mensajes de resultado unificados: éxito, error y advertencia *@
         @if (TempData["Mensaje"] != null)
         {
             <div class="alert alert-success alert-dismissible fade show" role="alert">
                 @TempData["Mensaje"]
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
             </div>
         }
+        @if (TempData["Error"] != null)
+        {
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                @TempData["Error"]
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+            </div>
+        }
+        @if (TempData["Advertencia"] != null)
+        {
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                @TempData["Advertencia"]
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+            </div>
+        }
+
         <main role="main">
             @RenderBody()
         </main>
     </div>
+
     <footer class="border-top footer text-muted mt-5 py-3">
         <div class="container">
             Sistema de Información de Trámites Ciudadanos — Notaría de Fe Pública N° 19 de Sucre, Bolivia

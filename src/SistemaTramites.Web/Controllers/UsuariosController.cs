@@ -3,11 +3,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SistemaTramites.Domain.Entities;
+using SistemaTramites.Domain.Seguridad;
 using SistemaTramites.Infrastructure.Data;
 
 namespace SistemaTramites.Web.Controllers;
 
-[Authorize(Roles = "Administrador,Notario")]
+/// <summary>Gestion de personal y roles (RF-06): atribucion del Notario y del Administrador.</summary>
+[Authorize(Roles = RolesApp.Supervision)]
 public class UsuariosController : Controller
 {
     private readonly AppDbContext _context;

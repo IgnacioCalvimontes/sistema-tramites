@@ -1,11 +1,15 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SistemaTramites.Domain.Entities;
+using SistemaTramites.Domain.Seguridad;
 using SistemaTramites.Infrastructure.Data;
 
 namespace SistemaTramites.Web.Controllers;
 
+/// <summary>Documentos del expediente: mesa operativa y archivo (RF-07).</summary>
+[Authorize(Roles = RolesApp.MesaYArchivo)]
 public class DocumentosController : Controller
 {
     private readonly AppDbContext _context;

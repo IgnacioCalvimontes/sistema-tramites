@@ -1,12 +1,55 @@
+@using SistemaTramites.Domain.Seguridad
 @{
     ViewData["Title"] = "Acceso denegado";
     Layout = "_LayoutLogin";
+
+    // Se explica al usuario con qué perfil entró y a quién dirigirse, en lugar
+    // de mostrar solo un mensaje de error seco.
+    var rol = User.IsInRole(RolesApp.Administrador) ? RolesApp.Administrador
+        : User.IsInRole(RolesApp.Notario) ? RolesApp.Notario
+        : User.IsInRole(RolesApp.Ventanilla) ? RolesApp.Ventanilla
+        : User.IsInRole(RolesApp.Caja) ? RolesApp.Caja
+        : User.IsInRole(RolesApp.Oficial) ? RolesApp.Oficial
+        : User.IsInRole(RolesApp.Archivo) ? RolesApp.Archivo
+        : User.IsInRole(RolesApp.Ciudadano) ? RolesApp.Ciudadano
+        : null;
+
+    var esCiudadano = rol == RolesApp.Ciudadano;
 }
 
-<div class="d-flex justify-content-center align-items-center" style="min-height: 60vh;">
-    <div class="text-center">
-        <h1 class="text-danger">Acceso denegado</h1>
-        <p class="text-muted">Tu usuario no tiene permisos para ver esta sección.</p>
-        <a asp-controller="Home" asp-action="Index" class="btn btn-primary">Volver al inicio</a>
+<div class="d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+    <div class="card" style="max-width: 520px;">
+        <div class="card-body p-4 text-center">
+            <span class="seal d-inline-flex mb-3" style="width:44px;height:44px;font-size:0.9rem;">N19</span>
+            <h1 class="h4 mb-2">Acceso denegado</h1>
+
+            @if (rol != null)
+            {
+                <p class="text-muted mb-3">
+                    Ha iniciado sesión como <strong>@User.Identity?.Name</strong> con el perfil
+                    <span class="badge-estado registrado">@rol</span>, y ese perfil no tiene
+                    atribución sobre la sección que intentó abrir.
+                </p>
+                <p class="text-muted small mb-4">
+                    Los permisos se asignan según el manual de funciones de la notaría.
+                    Si necesita este acceso, solicítelo al Notario o al Administrador del sistema (RF-06).
+                </p>
+            }
+            else
+            {
+                <p class="text-muted mb-4">
+                    Su usuario no tiene permisos para ver esta sección.
+                </p>
+            }
+
+            @if (esCiudadano)
+            {
+                <a asp-controller="MiPortal" asp-action="Index" class="btn btn-primary">Ir a mis trámites</a>
+            }
+            else
+            {
+                <a asp-controller="Home" asp-action="Index" class="btn btn-primary">Volver al inicio</a>
+            }
+        </div>
     </div>
 </div>

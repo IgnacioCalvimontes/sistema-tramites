@@ -293,3 +293,74 @@ code {
   padding: 0.1em 0.4em;
   border-radius: 2px;
 }
+
+/* ---------- Chip de rol en la barra de navegación ---------- */
+/* Hace explícito con qué perfil se inició sesión: clave para la demostración
+   de que el sistema diferencia roles (RF-06). */
+.rol-chip {
+  display: inline-block;
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--gold);
+  border: 1px solid rgba(156, 122, 60, 0.55);
+  border-radius: 2px;
+  padding: 0.05rem 0.4rem;
+  margin-top: 0.15rem;
+  white-space: nowrap;
+}
+
+/* ---------- Tarjetas de acción del tablero de inicio ---------- */
+.accion-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  height: 100%;
+  padding: 1rem 1.1rem;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--gold);
+  border-radius: 3px;
+  text-decoration: none;
+  transition: background-color 0.15s ease, border-left-color 0.15s ease;
+}
+
+.accion-card:hover {
+  background: var(--paper-shade);
+  border-left-color: var(--ink);
+  text-decoration: none;
+}
+
+.accion-card .accion-titulo {
+  font-family: 'Fraunces', Georgia, serif;
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--ink);
+}
+
+.accion-card .accion-detalle {
+  font-size: 0.84rem;
+  color: var(--muted);
+  line-height: 1.4;
+}
+
+/* ---------- Estado vacío (listados sin registros) ---------- */
+.empty-state {
+  text-align: center;
+  padding: 2.5rem 1.5rem;
+  background: #fff;
+  border: 1px dashed var(--line);
+  border-radius: 3px;
+  color: var(--muted);
+}
+
+/* ---------- Legibilidad de listas de definición en detalles ---------- */
+dl.row dt {
+  font-weight: 600;
+  color: var(--ink-soft);
+}
+
+dl.row dd {
+  margin-bottom: 0.5rem;
+}

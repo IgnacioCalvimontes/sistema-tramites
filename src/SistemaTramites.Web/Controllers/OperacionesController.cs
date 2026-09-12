@@ -1,7 +1,9 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SistemaTramites.Application.Services;
+using SistemaTramites.Domain.Seguridad;
 using SistemaTramites.Infrastructure.Data;
 
 namespace SistemaTramites.Web.Controllers;
@@ -27,6 +29,8 @@ public class OperacionesController : Controller
 
     // ---------- 1) Registrar solicitud de trámite ----------
 
+    // RF-01: la solicitud la recepciona la mesa operativa (ventanilla/oficial).
+    [Authorize(Roles = RolesApp.MesaOperativa)]
     [HttpGet]
     public IActionResult RegistrarSolicitud()
     {
@@ -34,6 +38,7 @@ public class OperacionesController : Controller
         return View();
     }
 
+    [Authorize(Roles = RolesApp.MesaOperativa)]
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> RegistrarSolicitud(int ciudadanoId, int tipoTramiteId, int? oficialId)
@@ -60,6 +65,8 @@ public class OperacionesController : Controller
 
     // ---------- 2) Registrar pago y emitir recibo ----------
 
+    // RF-05: el cobro y el recibo son atribucion exclusiva de Caja.
+    [Authorize(Roles = RolesApp.Recaudacion)]
     [HttpGet]
     public async Task<IActionResult> RegistrarPago()
     {
@@ -67,6 +74,7 @@ public class OperacionesController : Controller
         return View();
     }
 
+    [Authorize(Roles = RolesApp.Recaudacion)]
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> RegistrarPago(int tramiteId, int cajeroId, decimal monto)

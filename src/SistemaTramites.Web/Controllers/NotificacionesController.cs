@@ -1,11 +1,15 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SistemaTramites.Domain.Entities;
+using SistemaTramites.Domain.Seguridad;
 using SistemaTramites.Infrastructure.Data;
 
 namespace SistemaTramites.Web.Controllers;
 
+/// <summary>Notificaciones al ciudadano: las emite la mesa operativa (RF-09).</summary>
+[Authorize(Roles = RolesApp.MesaOperativa)]
 public class NotificacionesController : Controller
 {
     private readonly AppDbContext _context;

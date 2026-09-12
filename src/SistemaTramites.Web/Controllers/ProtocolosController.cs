@@ -1,11 +1,15 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SistemaTramites.Domain.Entities;
+using SistemaTramites.Domain.Seguridad;
 using SistemaTramites.Infrastructure.Data;
 
 namespace SistemaTramites.Web.Controllers;
 
+/// <summary>Protocolo notarial: lo indexa Archivo y lo supervisa el Notario (RF-08).</summary>
+[Authorize(Roles = RolesApp.ArchivoYSupervision)]
 public class ProtocolosController : Controller
 {
     private readonly AppDbContext _context;

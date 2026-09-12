@@ -1,11 +1,15 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SistemaTramites.Domain.Entities;
+using SistemaTramites.Domain.Seguridad;
 using SistemaTramites.Infrastructure.Data;
 
 namespace SistemaTramites.Web.Controllers;
 
+/// <summary>Aranceles (RF-03): todo el personal los consulta, solo Notario y Administrador cambian montos.</summary>
+[Authorize(Roles = RolesApp.Personal)]
 public class TiposTramiteController : Controller
 {
     private readonly AppDbContext _context;
@@ -35,6 +39,7 @@ public class TiposTramiteController : Controller
     }
 
     // GET: TiposTramite/Create
+    [Authorize(Roles = RolesApp.Supervision)]
     public IActionResult Create()
     {
 
@@ -44,6 +49,7 @@ public class TiposTramiteController : Controller
     // POST: TiposTramite/Create
     [HttpPost]
     [ValidateAntiForgeryToken]
+    [Authorize(Roles = RolesApp.Supervision)]
     public async Task<IActionResult> Create(TipoTramite model)
     {
         if (ModelState.IsValid)
@@ -58,6 +64,7 @@ public class TiposTramiteController : Controller
     }
 
     // GET: TiposTramite/Edit/5
+    [Authorize(Roles = RolesApp.Supervision)]
     public async Task<IActionResult> Edit(int? id)
     {
         if (id == null) return NotFound();
@@ -72,6 +79,7 @@ public class TiposTramiteController : Controller
     // POST: TiposTramite/Edit/5
     [HttpPost]
     [ValidateAntiForgeryToken]
+    [Authorize(Roles = RolesApp.Supervision)]
     public async Task<IActionResult> Edit(int id, TipoTramite model)
     {
         if (id != model.Id) return NotFound();
@@ -96,6 +104,7 @@ public class TiposTramiteController : Controller
     }
 
     // GET: TiposTramite/Delete/5
+    [Authorize(Roles = RolesApp.Supervision)]
     public async Task<IActionResult> Delete(int? id)
     {
         if (id == null) return NotFound();
@@ -110,6 +119,7 @@ public class TiposTramiteController : Controller
     // POST: TiposTramite/Delete/5
     [HttpPost, ActionName("Delete")]
     [ValidateAntiForgeryToken]
+    [Authorize(Roles = RolesApp.Supervision)]
     public async Task<IActionResult> DeleteConfirmed(int id)
     {
         var item = await _context.TiposTramite.FindAsync(id);

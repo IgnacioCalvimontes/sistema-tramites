@@ -91,6 +91,15 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
             .HasForeignKey(p => p.CajeroId)
             .OnDelete(DeleteBehavior.Restrict);
 
+        // Cuenta de acceso (Identity) 0..1 Ciudadano: permite que un login del rol
+        // "Ciudadano" vea solo sus propios tramites en el portal. Restrict evita que
+        // borrar una ficha de ciudadano arrastre su cuenta de acceso.
+        modelBuilder.Entity<ApplicationUser>()
+            .HasOne(u => u.Ciudadano)
+            .WithMany()
+            .HasForeignKey(u => u.CiudadanoId)
+            .OnDelete(DeleteBehavior.Restrict);
+
         modelBuilder.Entity<Tramite>()
             .HasIndex(t => t.CodigoSeguimiento)
             .IsUnique();

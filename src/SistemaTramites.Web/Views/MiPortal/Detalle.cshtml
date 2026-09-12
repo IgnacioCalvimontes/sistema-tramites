@@ -1,0 +1,91 @@
+@model Tramite
+@{
+    ViewData["Title"] = "Detalle del trámite";
+    var pagado = Model.Pagos.Any();
+}
+
+<div class="d-flex justify-content-between align-items-start mb-3">
+    <div>
+        <h1 class="h3 mb-1">Trámite @Model.CodigoSeguimiento</h1>
+        <p class="text-muted mb-0">@(Model.TipoTramite?.Nombre ?? "-")</p>
+    </div>
+    <span class="badge-estado @Model.Estado.ToLower().Replace(" ", "-")">@Model.Estado</span>
+</div>
+
+<div class="card mb-4">
+    <div class="card-body">
+        <dl class="row mb-0">
+            <dt class="col-sm-4">Código de seguimiento</dt>
+            <dd class="col-sm-8"><code>@Model.CodigoSeguimiento</code></dd>
+
+            <dt class="col-sm-4">Fecha de solicitud</dt>
+            <dd class="col-sm-8">@Model.FechaSolicitud.ToString("dd/MM/yyyy")</dd>
+
+            <dt class="col-sm-4">Arancel</dt>
+            <dd class="col-sm-8">
+                Bs @((Model.TipoTramite?.CostoArancel ?? 0m).ToString("N2"))
+                @if (pagado)
+                {
+                    <span class="ms-2" style="color: var(--forest);">✓ Cancelado</span>
+                }
+                else
+                {
+                    <span class="ms-2" style="color: var(--gold-deep);">Pendiente — acérquese a Caja</span>
+                }
+            </dd>
+        </dl>
+    </div>
+</div>
+
+@if (Model.Citas.Any())
+{
+    <h2 class="h5">Citas programadas</h2>
+    <table class="table table-striped table-hover mb-4">
+        <thead><tr><th>Fecha</th><th>Hora</th><th>Tipo de cita</th></tr></thead>
+        <tbody>
+        @foreach (var c in Model.Citas.OrderBy(c => c.Fecha).ThenBy(c => c.Hora))
+        {
+            <tr>
+                <td>@c.Fecha.ToString("dd/MM/yyyy")</td>
+                <td>@c.Hora.ToString(@"hh\:mm")</td>
+                <td>@c.TipoCita</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+
+@if (Model.Pagos.Any())
+{
+    <h2 class="h5">Pagos registrados</h2>
+    <table class="table table-striped table-hover mb-4">
+        <thead><tr><th>N� de recibo</th><th>Fecha</th><th class="text-end">Monto</th></tr></thead>
+        <tbody>
+        @foreach (var p in Model.Pagos.OrderByDescending(p => p.FechaPago))
+        {
+            <tr>
+                <td><code>@p.NumeroRecibo</code></td>
+                <td>@p.FechaPago.ToString("dd/MM/yyyy HH:mm")</td>
+                <td class="text-end">Bs @p.Monto.ToString("N2")</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+
+@if (Model.Notificaciones.Any())
+{
+    <h2 class="h5">Notificaciones</h2>
+    <table class="table table-striped table-hover mb-4">
+        <thead><tr><th>Medio</th><th>Estado</th></tr></thead>
+        <tbody>
+        @foreach (var n in Model.Notificaciones)
+        {
+            <tr><td>@n.Medio</td><td>@n.Estado</td></tr>
+        }
+        </tbody>
+    </table>
+}
+
+
+<a class="btn btn-outline-secondary" asp-action="Index">← Volver a mis trámites</a>

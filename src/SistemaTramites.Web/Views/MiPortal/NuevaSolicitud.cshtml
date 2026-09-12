@@ -1,0 +1,30 @@
+@model NuevaSolicitudViewModel
+@{
+    ViewData["Title"] = "Solicitar un trámite";
+}
+
+<h1 class="h3 mb-1">Solicitar un trámite</h1>
+<p class="text-muted">El trámite quedará registrado a su nombre. Al confirmar recibirá un código de seguimiento.</p>
+
+<div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+<div class="card">
+    <div class="card-body">
+        <form asp-action="NuevaSolicitud" method="post">
+            <div class="mb-3">
+                <label asp-for="TipoTramiteId" class="form-label"></label>
+                <select asp-for="TipoTramiteId" class="form-select">
+                    <option value="">— Seleccione el trámite que necesita —</option>
+                    @foreach (var tipo in Model.TiposDisponibles)
+                    {
+                        <option value="@tipo.Id">@tipo.Nombre — Bs @tipo.CostoArancel.ToString("N2")</option>
+                    }
+                </select>
+                <span asp-validation-for="TipoTramiteId" class="text-danger"></span>
+                <div class="form-text">El arancel se calcula automáticamente según el tipo de trámite (RF-03).</div>
+            </div>
+            <button type="submit" class="btn btn-primary">Confirmar solicitud</button>
+            <a class="btn btn-outline-secondary" asp-action="Index">Cancelar</a>
+        </form>
+    </div>
+</div>
